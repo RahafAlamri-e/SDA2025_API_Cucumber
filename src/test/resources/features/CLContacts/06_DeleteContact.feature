@@ -1,7 +1,7 @@
-@CLCrud @DeleteContact
+@CLCrud
 Feature: Delete Contact Feature
 
   Scenario: Delete Contact
-    When send delete request to delete created contact
+    When send the delete request to delete contact
     Then status code should be 200
-    Then response body should be as "Contact deleted"
+    And response body should contain "Contact deleted"

@@ -1,4 +1,4 @@
-@CLCrud @PartialUpdateContact
+@CLCrud @UpdateContact
 Feature: Partial Update Contact Feature
 
   Scenario: Partial Update Contact

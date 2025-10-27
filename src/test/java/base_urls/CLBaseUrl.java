@@ -1,15 +1,21 @@
 package base_urls;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.cucumber.java.Before;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import utilities.ObjectMapperUtils;
 
 
 import static io.restassured.RestAssured.given;
+import static stepdefinitions.E2ETestStepDefinitions.email;
 
 public class CLBaseUrl {
 
+    public static Response response;
+    public static JsonNode payload;
     public static RequestSpecification spec;
     private static String baseUrl = "https://thinking-tester-contact-list.herokuapp.com";
 
@@ -34,11 +40,12 @@ public class CLBaseUrl {
     }
      */
 
-    private static String getToken() {
-        String credentials = "{\n" +
-                "    \"email\": \"rererre@rreerr.com\",\n" +
-                "    \"password\": \"12345678\"\n" +
-                "}";
+    public static String getToken() {
+        JsonNode credentials = ObjectMapperUtils.getJsonNode("credentials");
+        if (email != null) {
+            ObjectMapperUtils.updateJsonNode(credentials, "email", email);
+            ObjectMapperUtils.updateJsonNode(credentials, "password", "Password.12345");
+        }
         return given()
                 .body(credentials)
                 .contentType(ContentType.JSON)

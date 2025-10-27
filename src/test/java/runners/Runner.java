@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         },
         features = "src/test/resources/features",
         glue = {"stepdefinitions", "base_urls"},
-        tags = "@CLCrud",
+        tags = "@ApiAndSelenium",
         dryRun = false // 'dryRun = true' ==> Checks for missing step definitions without running the test.
 )
 public class Runner {

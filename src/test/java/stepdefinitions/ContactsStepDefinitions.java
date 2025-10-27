@@ -1,21 +1,16 @@
 package stepdefinitions;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 
-import static base_urls.CLBaseUrl.spec;
+import static base_urls.CLBaseUrl.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
-import static utilities.ObjectMapperUtils.getJsonNode;
 
 public class ContactsStepDefinitions {
 
-    Response response;
-    static JsonNode payload;
+
     static String contactId;
 
     @When("send the get request to get all contacts")
@@ -25,10 +20,6 @@ public class ContactsStepDefinitions {
         response.prettyPrint();
     }
 
-    @Then("status code should be {int}")
-    public void status_code_should_be(Integer statusCode) {
-        response.then().statusCode(statusCode);
-    }
 
     @Then("response body should contain contact bodies")
     public void response_body_should_contain_contact_bodies() {
@@ -77,11 +68,6 @@ public class ContactsStepDefinitions {
         response = given(spec).body(payload).put("/contacts/" + contactId);
     }
 
-    @Given("prepare payload named {string}")
-    public void preparePayloadNamed(String fileName) {
-        payload = getJsonNode(fileName);
-        System.out.println(payload.toPrettyString());
-    }
 
     @When("send patch request to update contact")
     public void sendPatchRequestToUpdateContact() {
@@ -96,24 +82,11 @@ public class ContactsStepDefinitions {
         );
     }
 
-    @When("send delete request to delete created contact")
-    public void sendDeleteRequestToDeleteCreatedContact() {
+    @When("send the delete request to delete contact")
+    public void send_the_delete_request_to_delete_contact() {
+        //https://thinking-tester-contact-list.herokuapp.com/contacts/
         response = given(spec).delete("/contacts/" + contactId);
         response.prettyPrint();
     }
 
-    @Then("response body should be as {string}")
-    public void responseBodyShouldBeAs(String responseStr) {
-        response
-                .then()
-                .body(notNullValue())
-                .body(equalToIgnoringCase(responseStr));
-    }
-
-    @Then("response body should return empty")
-    public void responseBodyShouldReturnEmpty() {
-       response
-               .then()
-               .body(emptyOrNullString());
-    }
 }
